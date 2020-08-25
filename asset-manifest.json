@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/tennis-stats/static/css/main.5f361e03.chunk.css",
+    "main.js": "/tennis-stats/static/js/main.48a4d386.chunk.js",
+    "main.js.map": "/tennis-stats/static/js/main.48a4d386.chunk.js.map",
+    "runtime-main.js": "/tennis-stats/static/js/runtime-main.9db6785a.js",
+    "runtime-main.js.map": "/tennis-stats/static/js/runtime-main.9db6785a.js.map",
+    "static/js/2.aed10ae4.chunk.js": "/tennis-stats/static/js/2.aed10ae4.chunk.js",
+    "static/js/2.aed10ae4.chunk.js.map": "/tennis-stats/static/js/2.aed10ae4.chunk.js.map",
+    "index.html": "/tennis-stats/index.html",
+    "precache-manifest.436c99ae0e250bf4d1d7c5d93d0b0c88.js": "/tennis-stats/precache-manifest.436c99ae0e250bf4d1d7c5d93d0b0c88.js",
+    "service-worker.js": "/tennis-stats/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/tennis-stats/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.aed10ae4.chunk.js.LICENSE.txt": "/tennis-stats/static/js/2.aed10ae4.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/tennis-stats/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9db6785a.js",
+    "static/js/2.aed10ae4.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.48a4d386.chunk.js"
+  ]
+}
