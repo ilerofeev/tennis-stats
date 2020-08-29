@@ -1,5 +1,5 @@
 import React from 'react';
-import commonStyles from '../styles/commonStyles';
+import { commonStyles } from '../styles/commonStyles';
 
 function MonthStats() {
   const commonClasses = commonStyles();

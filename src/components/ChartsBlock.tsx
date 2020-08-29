@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LineChart from './LineChart';
 import BarChart from './BarChart';
 import colors from '../styles/colors';
+import { Match } from '../types';
 
 const useStyles = makeStyles({
   chartsBlock: {
@@ -14,16 +15,16 @@ const useStyles = makeStyles({
   },
 });
 
-function ChartsBlock() {
+const ChartsBlock: FC<{ data: Match[] }> = ({ data }) => {
   const classes = useStyles();
-  const mounthsData = {
+  const monthsData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
         backgroundColor: colors.colorChart,
         borderColor: colors.colorChart,
         borderWidth: 1,
-        data: [65, 59, 80, 81, 56, 55, 53],
+        data: [34, 23, 14, 42, 60, 39, 28],
       },
     ],
   };
@@ -38,13 +39,33 @@ function ChartsBlock() {
       },
     ],
   };
+  const monthData = {
+    labels: ['1', '5', '10', '15', '20', '25', '30'],
+    datasets: [
+      {
+        label: '',
+        fill: false,
+        lineTension: 0.3,
+        borderColor: colors.colorChart,
+        pointBackgroundColor: '#fff',
+        pointRadius: 4,
+        pointHitRadius: 0,
+        data: [5, 13, 10, 17, 29, 25, 34],
+      },
+    ],
+  };
   return (
     <div className={classes.chartsBlock}>
-      <BarChart color={'Orange'} data={mounthsData} />
-      <LineChart />
-      <BarChart color={'Blue'} horizontal={true} data={sourcesData} />
+      <BarChart title={'Last 7 months'} color={'Orange'} data={monthsData} />
+      <LineChart data={monthData} />
+      <BarChart
+        title={'Last month'}
+        color={'Blue'}
+        horizontal={true}
+        data={sourcesData}
+      />
     </div>
   );
-}
+};
 
 export default ChartsBlock;

@@ -16,29 +16,7 @@ import colors from '../styles/colors';
 import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import HomeIcon from '@material-ui/icons/Home';
-
-const sidebarMenuStyles = {
-  '& .MuiIconButton-label': {
-    '& .MuiSvgIcon-root': {
-      color: colors.colorPrimary,
-    },
-  },
-  '& .MuiSvgIcon-root': {
-    color: 'white',
-  },
-  '& .MuiListItem-button': {
-    color: 'white',
-    width: '90%',
-    margin: 'auto',
-    '&:hover': {
-      backgroundColor: colors.buttonHover,
-    },
-    borderRadius: 5,
-  },
-  '& .MuiListItemIcon-root': {
-    minWidth: 45,
-  },
-};
+import { sidebarMenuStyles } from '../styles/commonStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -146,7 +124,7 @@ const Sidebar: FC<{ children: React.ReactNode }> = ({ children }) => {
             button
             key={item.path}
             onClick={() => {
-              handleDrawerToggle();
+              if (mobileOpen) handleDrawerToggle();
               history.push(item.path);
             }}
           >

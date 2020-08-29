@@ -48,10 +48,19 @@ const useStyles = makeStyles({
 });
 
 const BarChart: FC<{
+  title: string;
   horizontal?: boolean;
   color: 'Orange' | 'Blue';
-  data: any;
-}> = ({ horizontal, color, data }) => {
+  data: { labels: string[]; datasets: { data: number[] }[] };
+}> = ({ horizontal, color, data, title }) => {
+  const getAverageProfit = () => {
+    const profitArray = data.datasets[0].data;
+    return (
+      Math.round(
+        profitArray.reduce((sum, add) => sum + add) / profitArray.length
+      ) + '%'
+    );
+  };
   const classes = useStyles();
   return (
     <div className={classes.chartWrapper}>
@@ -80,9 +89,9 @@ const BarChart: FC<{
             />
           )}
         </div>
-        <div className={classes.chartTitle}>Last 6 months</div>
+        <div className={classes.chartTitle}>{title}</div>
         <span className={classes.chartDescription}>
-          <span>37% </span>&nbsp;
+          <span>{getAverageProfit()}</span>&nbsp;
           <span>on average</span>
         </span>
       </div>

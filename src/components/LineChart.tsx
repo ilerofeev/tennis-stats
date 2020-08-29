@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Line } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/core/styles';
 import colors from '../styles/colors';
@@ -43,23 +43,13 @@ const useStyles = makeStyles({
   },
 });
 
-function LineChart() {
-  const data = {
-    labels: ['1', '5', '10', '15', '20', '25', '30'],
-    datasets: [
-      {
-        label: '',
-        fill: false,
-        lineTension: 0.3,
-        borderColor: colors.colorChart,
-        pointBackgroundColor: '#fff',
-        pointRadius: 4,
-        pointHitRadius: 0,
-        data: [5, 13, 10, 17, 29, 25, 34],
-      },
-    ],
-  };
+const LineChart: FC<{
+  data: { labels: string[]; datasets: { data: number[] }[] };
+}> = ({ data }) => {
   const classes = useStyles();
+  const profitNumbers = data.datasets[0].data;
+  const lastProfit = profitNumbers[profitNumbers.length - 1];
+  const penultProfit = profitNumbers[profitNumbers.length - 2];
   return (
     <div className={classes.chartWrapper}>
       <div className={classes.chartBlock}>
@@ -74,12 +64,24 @@ function LineChart() {
         </div>
         <div className={classes.chartTitle}>Last month</div>
         <span className={classes.chartDescription}>
-          <ArrowUpwardIcon /> <span>9% </span>&nbsp;
-          <span>increase last 5 days</span>
+          <ArrowUpwardIcon />{' '}
+          <span> {Math.abs(lastProfit - penultProfit)}% </span>
+          &nbsp;
+          <span>
+            {lastProfit === penultProfit
+              ? ''
+              : lastProfit > penultProfit
+              ? 'increase'
+              : 'decrease'}{' '}
+            last&nbsp;
+            {+data.labels[data.labels.length - 1] -
+              +data.labels[data.labels.length - 2]}{' '}
+            days
+          </span>
         </span>
       </div>
     </div>
   );
-}
+};
 
 export default LineChart;
