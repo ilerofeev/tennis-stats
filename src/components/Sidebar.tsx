@@ -3,16 +3,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import background from '../images/background.jpeg';
 import { colors } from '../styles/colors';
 import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
+import { useHistory } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
       minWidth: 45,
     },
   },
+  backgroundFilter: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  },
   drawer: {
     position: 'relative',
     height: '100%',
@@ -61,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
   menuDivider: {
     width: '90%',
     margin: 'auto',
+    backgroundColor: colors.colorSecondary,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -85,6 +94,8 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
+    height: '100vh',
+    backgroundColor: colors.colorBackground,
     flexGrow: 1,
     padding: theme.spacing(3),
   },
@@ -93,26 +104,20 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const sidebarItems = [
+    { label: 'Main page', path: '/main', icon: <HomeIcon /> },
+  ];
+
   const drawer = (
     <div className={classes.drawer}>
-      <div
-        style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-        }}
-      >
-        {' '}
-      </div>
+      <div className={classes.backgroundFilter}> </div>
       <ListItem className={classes.menuHeader}>
         <ListItemIcon>
           <SportsBaseballIcon />
@@ -121,12 +126,14 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
       </ListItem>
       <Divider className={classes.menuDivider} />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
+        {sidebarItems.map((item) => (
+          <ListItem
+            button
+            key={item.path}
+            onClick={() => history.push(item.path)}
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.label} />
           </ListItem>
         ))}
       </List>
@@ -138,8 +145,7 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
       <CssBaseline />
 
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
+        <Hidden implementation="css">
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -155,7 +161,7 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,
