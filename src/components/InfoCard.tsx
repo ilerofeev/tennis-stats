@@ -5,7 +5,7 @@ import { Divider } from '@material-ui/core';
 import colors from '../styles/colors';
 
 const useStyles = makeStyles({
-  cardWrapper: { padding: 15 },
+  cardWrapper: { padding: 10 },
   card: {
     display: 'block',
     backgroundColor: '#fff',

@@ -6,7 +6,8 @@ import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import HomeIcon from '@material-ui/icons/Home';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import background from '../images/background.jpeg';
@@ -14,71 +15,52 @@ import { useHistory } from 'react-router';
 import colors from '../styles/colors';
 import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import HomeIcon from '@material-ui/icons/Home';
 
-const drawerWidth = 240;
+const sidebarMenuStyles = {
+  '& .MuiIconButton-label': {
+    '& .MuiSvgIcon-root': {
+      color: colors.colorPrimary,
+    },
+  },
+  '& .MuiSvgIcon-root': {
+    color: 'white',
+  },
+  '& .MuiListItem-button': {
+    color: 'white',
+    width: '90%',
+    margin: 'auto',
+    '&:hover': {
+      backgroundColor: colors.buttonHover,
+    },
+    borderRadius: 5,
+  },
+  '& .MuiListItemIcon-root': {
+    minWidth: 45,
+  },
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    ...sidebarMenuStyles,
     '& ::-webkit-scrollbar': {
       display: 'none',
     },
-    display: 'flex',
-    '& .MuiSvgIcon-root': {
-      color: 'white',
-    },
-
-    '& .MuiListItem-button': {
-      color: 'white',
-      width: '90%',
-      margin: 'auto',
-      '&:hover': {
-        backgroundColor: colors.buttonHover,
-      },
-      borderRadius: 5,
-    },
-    '& .MuiListItemIcon-root': {
-      minWidth: 45,
-    },
   },
-  backgroundFilter: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-  },
-  drawer: {
-    position: 'relative',
-    height: '100%',
-    backgroundColor: 'black',
+  drawerWrapper: {
     overflow: 'hidden',
     background: `url(${background})`,
     backgroundPosition: '60% center',
     backgroundRepeat: 'no-repeat',
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
+    height: '100%',
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: 240,
       flexShrink: 0,
     },
   },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuDivider: {
-    width: '90%',
-    margin: 'auto',
-    backgroundColor: colors.colorSecondary,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('xs')]: {
-      display: 'none',
-    },
-  },
-  toolbar: theme.mixins.toolbar,
   menuHeader: {
     color: 'white',
     fontWeight: 400,
@@ -90,24 +72,54 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'transparent !important',
     },
   },
+  backgroundFilter: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  },
+  menuDivider: {
+    width: '90%',
+    margin: 'auto',
+    backgroundColor: colors.colorSecondary,
+  },
+  appBar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - 240px)`,
+      marginLeft: 240,
+    },
+  },
+  menuButton: {
+    position: 'absolute',
+    right: 24,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+    fill: `${colors.colorPrimary} !important`,
+  },
+  toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth,
+    width: 240,
+    ...sidebarMenuStyles,
   },
   content: {
-    minWidth: 460,
-    overflow: 'auto',
+    position: 'relative',
     height: '100vh',
-    backgroundColor: colors.colorBackground,
+    overflow: 'auto',
     flexGrow: 1,
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
+    backgroundColor: colors.colorBackground,
   },
 }));
 
-const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
+const Sidebar: FC<{ children: React.ReactNode }> = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const history = useHistory();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const history = useHistory();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -119,13 +131,13 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
   ];
 
   const drawer = (
-    <div className={classes.drawer}>
+    <div className={classes.drawerWrapper}>
       <div className={classes.backgroundFilter}> </div>
       <ListItem className={classes.menuHeader}>
         <ListItemIcon>
           <SportsBaseballIcon />
         </ListItemIcon>
-        <ListItemText primary={'tennis stats'} />
+        <ListItemText primary={'tennis stats'} />{' '}
       </ListItem>
       <Divider className={classes.menuDivider} />
       <List>
@@ -133,7 +145,10 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
           <ListItem
             button
             key={item.path}
-            onClick={() => history.push(item.path)}
+            onClick={() => {
+              handleDrawerToggle();
+              history.push(item.path);
+            }}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label} />
@@ -147,7 +162,7 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
     <div className={classes.root}>
       <CssBaseline />
       <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden smDown implementation="css">
+        <Hidden smUp implementation="css">
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -163,7 +178,7 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden smDown implementation="css">
+        <Hidden xsDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,
@@ -175,7 +190,18 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>{children}</main>
+      <main className={classes.content}>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
+        {children}
+      </main>
     </div>
   );
 };

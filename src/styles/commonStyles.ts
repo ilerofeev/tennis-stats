@@ -3,7 +3,8 @@ import colors from './colors';
 
 const commonStyles = makeStyles({
   pageTitle: {
-    padding: 15,
+    padding: '0 0 0 10px',
+    lineHeight: '48px',
     fontSize: 18,
     color: colors.colorPrimary,
     fontWeight: 300,
