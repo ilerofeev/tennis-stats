@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "37c8a85d2bb36b279d0076d920787650",
+    "revision": "427cd9b730f14de2f19a4407b360327d",
     "url": "/tennis-stats/index.html"
   },
   {
-    "revision": "5c0ac20272cd7fb946d5",
-    "url": "/tennis-stats/static/js/2.a6c2dc91.chunk.js"
+    "revision": "3af083f662215d369d57",
+    "url": "/tennis-stats/static/js/2.d1727aa0.chunk.js"
   },
   {
     "revision": "0749163b59fbee32225059cb60c18af6",
-    "url": "/tennis-stats/static/js/2.a6c2dc91.chunk.js.LICENSE.txt"
+    "url": "/tennis-stats/static/js/2.d1727aa0.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1b125d11a1e31d545f76",
-    "url": "/tennis-stats/static/js/main.2aa26224.chunk.js"
+    "revision": "71ede0ed920ac9fba2fe",
+    "url": "/tennis-stats/static/js/main.3e21f31d.chunk.js"
   },
   {
     "revision": "6a0d37f9358b49d870e2",
