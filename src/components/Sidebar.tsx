@@ -10,9 +10,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import background from '../images/background.jpeg';
-import { colors } from '../styles/colors';
-import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
 import { useHistory } from 'react-router';
+import colors from '../styles/colors';
+import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 
 const drawerWidth = 240;
 
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     background: `url(${background})`,
     backgroundPosition: '60% center',
     backgroundRepeat: 'no-repeat',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
@@ -73,11 +74,10 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('xs')]: {
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   menuHeader: {
     color: 'white',
@@ -94,10 +94,12 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
+    minWidth: 460,
+    overflow: 'auto',
     height: '100vh',
     backgroundColor: colors.colorBackground,
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
 }));
 
@@ -113,6 +115,7 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
 
   const sidebarItems = [
     { label: 'Main page', path: '/main', icon: <HomeIcon /> },
+    { label: 'Month stats', path: '/stats', icon: <DateRangeIcon /> },
   ];
 
   const drawer = (
@@ -143,9 +146,8 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-
       <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -155,13 +157,13 @@ const Sidebar: FC<{ children?: React.ReactNode }> = ({ children }) => {
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true,
             }}
           >
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,

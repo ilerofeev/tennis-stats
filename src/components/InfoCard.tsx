@@ -1,18 +1,20 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../styles/colors';
 import AbsoluteIcon from './AbsoluteIcon';
 import { Divider } from '@material-ui/core';
+import colors from '../styles/colors';
 
 const useStyles = makeStyles({
+  cardWrapper: { padding: 15 },
   card: {
     display: 'block',
     backgroundColor: '#fff',
-    width: 250,
+    minWidth: 250,
+    width: 'calc(25% - 30px)',
     borderRadius: 3,
     boxShadow: colors.blockShadow,
     padding: 15,
-    marginRight: 30,
+    marginBottom: 40,
   },
   infoTitle: {
     textAlign: 'right',
@@ -43,12 +45,14 @@ const InfoCard: FC<{
 }> = ({ color, icon, data }) => {
   const classes = useStyles();
   return (
-    <div className={classes.card}>
-      <AbsoluteIcon color={color} icon={icon} />
-      <p className={classes.infoTitle}>{data.title}</p>
-      <h3 className={classes.infoDescription}>{data.description}</h3>{' '}
-      <Divider className={classes.divider} />
-      <div className={classes.hint}>{data.hint}</div>
+    <div className={classes.cardWrapper}>
+      <div className={classes.card}>
+        <AbsoluteIcon color={color} icon={icon} />
+        <p className={classes.infoTitle}>{data.title}</p>
+        <h3 className={classes.infoDescription}>{data.description}</h3>{' '}
+        <Divider className={classes.divider} />
+        <div className={classes.hint}>{data.hint}</div>
+      </div>
     </div>
   );
 };
