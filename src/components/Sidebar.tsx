@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import background from '../images/background.jpeg';
+import background from '../images/sidebar-background.jpeg';
 import { useHistory } from 'react-router';
 import colors from '../styles/colors';
 import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
@@ -105,7 +105,7 @@ const Sidebar: FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const sidebarItems = [
     { label: 'Main page', path: '/main', icon: <HomeIcon /> },
-    { label: 'Month stats', path: '/stats', icon: <DateRangeIcon /> },
+    { label: 'Month stats', path: '/main/stats', icon: <DateRangeIcon /> },
   ];
 
   const drawer = (
