@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -67,32 +67,23 @@ export default function AuthPage() {
 
   const history = useHistory();
 
-  const [userData, setUserData] = useState<any>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (user !== null) history.push('/main');
+  }, [user, history]);
+
+  const signIn = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (password === '' || email === '') setError('Email or password is empty');
     else
-      fire.auth().onAuthStateChanged((user) => {
-        if (user) {
-          setUserData(user);
-        } else {
-          setUserData(null);
-        }
-      });
-  }, []);
-
-  const signIn = () =>
-    fire
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log('success login');
-      })
-      .catch((error) => console.log(error));
-
-  const signOut = () => fire.auth().signOut();
+      fire
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then()
+        .catch((err) => setError(err.message));
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -115,7 +106,7 @@ export default function AuthPage() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={signIn}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -126,6 +117,8 @@ export default function AuthPage() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -137,6 +130,8 @@ export default function AuthPage() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             {error && <p className={classes.requiredWarning}>{error}</p>}
             <Button
@@ -149,11 +144,17 @@ export default function AuthPage() {
               Sign In
             </Button>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="secondary"
               className={classes.submit}
+              onClick={() => {
+                fire
+                  .auth()
+                  .signInAnonymously()
+                  .then()
+                  .catch((err) => setError(err.message));
+              }}
             >
               Sign in as guest
             </Button>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,6 +17,8 @@ import SportsBaseballIcon from '@material-ui/icons/SportsBaseball';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import HomeIcon from '@material-ui/icons/Home';
 import { sidebarMenuStyles } from '../styles/commonStyles';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { UserContext } from './App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     '& ::-webkit-scrollbar': {
       display: 'none',
     },
+  },
+  lastMenuItem: {
+    margin: '0 auto 8px !important',
+  },
+  exitButton: {
+    margin: '8px auto !important',
   },
   drawerWrapper: {
     overflow: 'hidden',
@@ -106,7 +114,10 @@ const Sidebar: FC<{ children: React.ReactNode }> = ({ children }) => {
   const sidebarItems = [
     { label: 'Main page', path: '/main', icon: <HomeIcon /> },
     { label: 'Month stats', path: '/main/stats', icon: <DateRangeIcon /> },
+    { label: 'EXIT', path: '/auth', icon: <ExitToAppIcon /> },
   ];
+
+  const { removeUser } = useContext(UserContext);
 
   const drawer = (
     <div className={classes.drawerWrapper}>
@@ -115,23 +126,40 @@ const Sidebar: FC<{ children: React.ReactNode }> = ({ children }) => {
         <ListItemIcon>
           <SportsBaseballIcon />
         </ListItemIcon>
-        <ListItemText primary={'tennis stats'} />{' '}
+        <ListItemText primary={'tennis stats'} />
       </ListItem>
       <Divider className={classes.menuDivider} />
       <List>
-        {sidebarItems.map((item) => (
-          <ListItem
-            button
-            key={item.path}
-            onClick={() => {
-              if (mobileOpen) handleDrawerToggle();
-              history.push(item.path);
-            }}
-          >
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.label} />
-          </ListItem>
-        ))}
+        {sidebarItems.map((item, key) => {
+          const exitButtonItem = key === sidebarItems.length - 1;
+          const lastRouteItem = key === sidebarItems.length - 2;
+          return (
+            <>
+              <ListItem
+                className={
+                  lastRouteItem
+                    ? classes.lastMenuItem
+                    : exitButtonItem
+                    ? classes.exitButton
+                    : ''
+                }
+                button
+                key={item.path}
+                onClick={() => {
+                  if (exitButtonItem) removeUser();
+                  else {
+                    if (mobileOpen) handleDrawerToggle();
+                    history.push(item.path);
+                  }
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+              {lastRouteItem && <Divider className={classes.menuDivider} />}
+            </>
+          );
+        })}
       </List>
     </div>
   );
